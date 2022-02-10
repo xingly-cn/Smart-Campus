@@ -16,11 +16,14 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         this.setFieldValByName("createtime",new Date(),metaObject);
         this.setFieldValByName("updatetime", new Date(), metaObject);
-        this.setFieldValByName("is_delete", 0, metaObject);
-        this.setFieldValByName("is_read", 0, metaObject);
-        this.setFieldValByName("status", 0, metaObject);
-        this.setFieldValByName("look", 0, metaObject);
-        this.setFieldValByName("verify", 0, metaObject);
+        //this.setFieldValByName("is_delete", 0, metaObject);
+        //this.setFieldValByName("is_read", 0, metaObject);
+        //this.setFieldValByName("status", 0, metaObject);
+        //this.setFieldValByName("look", 0L, metaObject);
+        //this.setFieldValByName("verify", 0, metaObject);
+        //this.setFieldValByName("tags", 0L, metaObject);
+        //this.setFieldValByName("count", 0L, metaObject);
+        //this.setFieldValByName("find", 0L, metaObject);
     }
 
     @Override
