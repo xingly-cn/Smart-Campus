@@ -1,9 +1,8 @@
 package com.sugar.lost.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -42,6 +41,7 @@ public class School implements Serializable {
     private Long count;
 
     @ApiModelProperty(value = "加入时间")
+    @TableField(fill = FieldFill.INSERT)
     private Date createtime;
 
 
