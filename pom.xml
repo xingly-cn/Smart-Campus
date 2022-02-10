@@ -7,6 +7,9 @@
     <groupId>org.sugar</groupId>
     <artifactId>Smart-Campus</artifactId>
     <version>Dream-A</version>
+    <modules>
+        <module>sugar-base</module>
+    </modules>
 
     <packaging>pom</packaging>
 
