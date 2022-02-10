@@ -1,15 +1,16 @@
 package com.sugar.lost.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * <p>
@@ -45,18 +46,21 @@ public class Good implements Serializable {
     private String content;
 
     @ApiModelProperty(value = "状态")
-    private String tags;
+    private Long tags;
 
     @ApiModelProperty(value = "访问量")
     private Long look;
 
     @ApiModelProperty(value = "发布时间")
+    @TableField(fill = FieldFill.INSERT)
     private Date createtime;
 
     @ApiModelProperty(value = "修改时间")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updatetime;
 
     @ApiModelProperty(value = "逻辑删除")
+    @TableLogic
     private Integer isDelete;
 
 
