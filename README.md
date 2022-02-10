@@ -11,7 +11,7 @@
 - 数据库： MySQL（`5.6`）
 - 技术栈：SpringCloud Alibaba，Redis，Swagger，Knife4j，MybatisPlus，JWT
 
-》[后台 前端地址](https://github.com/xingly-cn/Smart-Campus/)《
+》[后台 前端地址](https://github.com/xingly-cn/Smart-Campus-Admin)《
 
 ![智慧e校园.png](https://s2.loli.net/2022/02/09/KZmODc6BQCFj2eI.png)
 
