@@ -2,10 +2,12 @@ package com.sugar.lost.service.impl;
 
 import com.sugar.lost.entity.Category;
 import com.sugar.lost.entity.Good;
+import com.sugar.lost.entity.School;
 import com.sugar.lost.mapper.GoodMapper;
 import com.sugar.lost.service.CategoryService;
 import com.sugar.lost.service.GoodService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sugar.lost.service.SchoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,9 @@ public class GoodServiceImpl extends ServiceImpl<GoodMapper, Good> implements Go
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private SchoolService schoolService;
+
     @Override
     public boolean editGood(Good good) {
         String id = good.getId();
@@ -34,10 +39,14 @@ public class GoodServiceImpl extends ServiceImpl<GoodMapper, Good> implements Go
     public boolean saveGood(Good good) {
         baseMapper.insert(good);
         String categoryId = good.getCategory();
+        String schoolid = good.getSchoolid();
         Category category = categoryService.getById(categoryId);
+        School school = schoolService.getById(schoolid);
+        school.setCount(school.getCount() + 1);
         category.setCount(category.getCount() + 1);
-        boolean update = categoryService.updateById(category);
-        return update;
+        boolean update = schoolService.updateById(school);
+        boolean update2 = categoryService.updateById(category);
+        return update && update2;
     }
 
     @Override

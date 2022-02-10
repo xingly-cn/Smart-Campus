@@ -33,6 +33,9 @@ public class Good implements Serializable {
     @TableId(value = "id", type = IdType.ID_WORKER_STR)
     private String id;
 
+    @ApiModelProperty(value = "学校ID")
+    private String schoolid;
+
     @ApiModelProperty(value = "丢失者姓名")
     private String name;
 
