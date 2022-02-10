@@ -9,6 +9,7 @@
     <version>Dream-A</version>
     <modules>
         <module>sugar-base</module>
+        <module>sugar-lost</module>
     </modules>
 
     <packaging>pom</packaging>

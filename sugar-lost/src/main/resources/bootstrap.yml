@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: sugar-lost
+  profiles:
+    active: prod
+  cloud:
+    nacos:
+      config:
+        server-addr: 175.27.243.243:8848
+        file-extension: yml
+        namespace: 93bb45fd-59ee-49b9-b82d-93b7631bebbc
