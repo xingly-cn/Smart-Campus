@@ -1,9 +1,8 @@
 package com.sugar.lost.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -39,12 +38,15 @@ public class Inform implements Serializable {
     private String content;
 
     @ApiModelProperty(value = "发布时间")
+    @TableField(fill = FieldFill.INSERT)
     private Date createtime;
 
     @ApiModelProperty(value = "修改时间")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updatetime;
 
     @ApiModelProperty(value = "0 未删除 1 删除")
+    @TableLogic
     private Integer isDelete;
 
     @ApiModelProperty(value = "分类ID")
