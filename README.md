@@ -1,7 +1,7 @@
 # 智慧e校园
 [![GitHub license](https://img.shields.io/github/license/WeixinCloud/wxcloudrun-express)](https://github.com/WeixinCloud/wxcloudrun-express)
-![GitHub package.json dependency version (prod)](https://img.shields.io/badge/maven-3.6.0-green)
-![GitHub package.json dependency version (prod)](https://img.shields.io/badge/jdk-11-green)
+![GitHub package.json dependency version (prod)](https://img.shields.io/badge/maven-3.6.0-9cf)
+![GitHub package.json dependency version (prod)](https://img.shields.io/badge/jdk-8-ff69b4)
 
 智慧e校园，提供立体化校园服务，打造一流校园聚合平台。目前功能包括：失物招领，校园跑腿，学习分享、考研圈。
 
