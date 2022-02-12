@@ -17,7 +17,7 @@ public class GlobalException  {
     @ResponseBody
     public R error(Exception e) {
         e.printStackTrace();
-        return R.error().message("请求异常：" + e.getMessage());
+        return R.error().message("请求异常：" + e.getMessage().substring(0,20));
     }
 
 }
