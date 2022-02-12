@@ -37,11 +37,12 @@ public class GoodController {
     @Autowired
     private RedisUtil redisUtil;
 
-    @GetMapping("getList")
+    @GetMapping("getAllList")
     @ApiOperation("物品列表")
-    public R getList(long cur, long size) {
-        Page<Good> page = new Page<Good>(cur,size);
-        QueryWrapper<Good> wrapper = new QueryWrapper<Good>();
+    public R getAllList(long cur, long size, String categoryId) {
+        Page<Good> page = new Page<>(cur,size);
+        QueryWrapper<Good> wrapper = new QueryWrapper<>();
+        if (categoryId != null) wrapper.eq("category",categoryId);
         wrapper.orderByAsc("tags");
         wrapper.orderByDesc("look");
         goodService.page(page,wrapper);
