@@ -1,9 +1,8 @@
 package com.sugar.lost.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -32,6 +31,9 @@ public class Callback implements Serializable {
     @TableId(value = "id", type = IdType.ID_WORKER_STR)
     private String id;
 
+    @ApiModelProperty(value = "学生ID")
+    private String stuid;
+
     @ApiModelProperty(value = "标题")
     private String title;
 
@@ -42,9 +44,11 @@ public class Callback implements Serializable {
     private Integer status;
 
     @ApiModelProperty(value = "反馈时间")
+    @TableField(fill = FieldFill.INSERT)
     private Date createtime;
 
     @ApiModelProperty(value = "0 未删除 1 删除")
+    @TableLogic
     private Integer isDelete;
 
 
