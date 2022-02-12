@@ -1,9 +1,8 @@
 package com.sugar.lost.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -39,18 +38,20 @@ public class Msg implements Serializable {
     private String stuid;
 
     @ApiModelProperty(value = "发送者ID")
-    private String from;
+    private String fromer;
 
     @ApiModelProperty(value = "消息内容")
     private String content;
 
     @ApiModelProperty(value = "发送时间")
+    @TableField(fill = FieldFill.INSERT)
     private Date createtime;
 
     @ApiModelProperty(value = "0 未读 1 已读")
     private Integer isRead;
 
     @ApiModelProperty(value = "0 未删除 1 删除")
+    @TableLogic
     private Integer isDelete;
 
 
