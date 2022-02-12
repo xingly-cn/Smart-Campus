@@ -1,9 +1,8 @@
 package com.sugar.lost.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -57,15 +56,18 @@ public class Stu implements Serializable {
     private Integer gender;
 
     @ApiModelProperty(value = "注册时间")
+    @TableField(fill = FieldFill.INSERT)
     private Date createtime;
 
     @ApiModelProperty(value = "最后登陆时间")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date lastlogin;
 
     @ApiModelProperty(value = "0 未认证 1 认证")
     private Integer verify;
 
     @ApiModelProperty(value = "0 未删除 1 删除")
+    @TableLogic
     private Integer isDelete;
 
 

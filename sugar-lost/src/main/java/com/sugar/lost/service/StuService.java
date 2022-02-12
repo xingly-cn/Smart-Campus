@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface StuService extends IService<Stu> {
 
+    String login(String username, String password);
 }
