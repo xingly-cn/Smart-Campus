@@ -16,4 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 public interface MsgService extends IService<Msg> {
 
     boolean readMsg(String msgId, HttpServletRequest request);
+
+    Object getInfo(String msgId, HttpServletRequest request);
 }

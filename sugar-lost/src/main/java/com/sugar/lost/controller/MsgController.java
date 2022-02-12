@@ -53,5 +53,11 @@ public class MsgController {
         return R.ok().data("success",msgService.readMsg(msgId, request));
     }
 
+    @GetMapping("getInfo")
+    @ApiOperation("查看消息")
+    public R getInfo(String msgId, HttpServletRequest request) {
+        return R.ok().data("msg",msgService.getInfo(msgId, request));
+    }
+
 }
 
