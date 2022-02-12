@@ -36,8 +36,6 @@ public class MsgServiceImpl extends ServiceImpl<MsgMapper, Msg> implements MsgSe
         String stuId = JwtUtils.getMemberIdByJwtToken(request);
         Msg msg = baseMapper.selectById(msgId);
         if (msg == null || !msg.getStuid().equals(stuId)) {
-            System.out.println(msgId);
-            System.out.println(msg);
             return "非法权限,您的IP已被记录.";
         }
         return msg;
