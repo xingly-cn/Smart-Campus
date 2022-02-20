@@ -2,37 +2,35 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <parent>
         <artifactId>Smart-Campus</artifactId>
         <groupId>org.sugar</groupId>
         <version>Dream-A</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>sugar-lost</artifactId>
+
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <classifier>exec</classifier>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
 
     <dependencies>
         <dependency>
             <groupId>org.sugar</groupId>
             <artifactId>sugar-base</artifactId>
             <version>Dream-A</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
