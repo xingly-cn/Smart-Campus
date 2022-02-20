@@ -1,5 +1,4 @@
 # 智慧e校园 - 后台
-[![GitHub license](https://img.shields.io/github/license/WeixinCloud/wxcloudrun-express)](https://github.com/WeixinCloud/wxcloudrun-express)
 ![GitHub package.json dependency version (prod)](https://img.shields.io/badge/maven-3.6.0-9cf)
 ![GitHub package.json dependency version (prod)](https://img.shields.io/badge/jdk-8-ff69b4)
 
