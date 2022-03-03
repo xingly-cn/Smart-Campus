@@ -33,7 +33,9 @@ public class SchoolController {
     @ApiOperation("学校列表")
     public R getList(long cur, long size) {
         Page<School> page = new Page<School>(cur,size);
-        schoolService.page(page,null);
+        QueryWrapper<School> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("createtime");
+        schoolService.page(page,wrapper);
         long total = page.getTotal();
         return R.ok().data("schoolList",page.getRecords()).data("total",total);
     }
