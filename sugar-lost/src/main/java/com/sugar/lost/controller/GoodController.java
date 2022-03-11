@@ -47,7 +47,7 @@ public class GoodController {
         wrapper.orderByDesc("look");
         goodService.page(page,wrapper);
         long total = page.getTotal();
-        return R.ok().data("goodList",page.getRecords()).data("total",total);
+        return R.ok().data("list",page.getRecords()).data("total",total);
     }
 
     @GetMapping("getInfo")
