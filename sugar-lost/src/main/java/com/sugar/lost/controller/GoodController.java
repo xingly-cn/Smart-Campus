@@ -42,7 +42,8 @@ public class GoodController {
     public R getAllList(long cur, long size, String categoryId) {
         Page<Good> page = new Page<>(cur,size);
         QueryWrapper<Good> wrapper = new QueryWrapper<>();
-        if (categoryId != null) wrapper.eq("category",categoryId);
+        if (categoryId != null && !categoryId.isEmpty()) wrapper.eq("category",categoryId);
+        wrapper.orderByDesc("createtime");
         wrapper.orderByAsc("tags");
         wrapper.orderByDesc("look");
         goodService.page(page,wrapper);
