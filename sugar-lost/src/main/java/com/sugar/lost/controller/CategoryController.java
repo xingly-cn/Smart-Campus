@@ -30,13 +30,10 @@ public class CategoryController {
 
     @GetMapping("/getList")
     @ApiOperation("分类列表")
-    public R getList(long cur, long size) {
-        Page<Category> page = new Page<Category>(cur,size);
+    public R getList() {
         QueryWrapper<Category> wrapper = new QueryWrapper<Category>();
         wrapper.orderByDesc("level");
-        categoryService.page(page,wrapper);
-        long total = page.getTotal();
-        return R.ok().data("categoryList",page.getRecords()).data("total",total);
+        return R.ok().data("list",categoryService.list(wrapper));
     }
 
     @GetMapping("getInfo")
