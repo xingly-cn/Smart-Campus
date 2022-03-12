@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * <p>
  *  前端控制器
@@ -49,7 +51,13 @@ public class CallbackController {
 
     @PostMapping("add")
     @ApiOperation("添加反馈")
-    public R add(@RequestBody Callback callback) {
+    // TODO 根据token 解析学生信息
+    public R add(@RequestBody Callback callback, HttpServletRequest request) {
+        String token = request.getHeader("token");
+        System.out.println(token);
+        callback.setStuid(token);
+        callback.setStatus(0);
+        callback.setIsDelete(0);
         return R.ok().data("success",callbackService.save(callback));
     }
 
