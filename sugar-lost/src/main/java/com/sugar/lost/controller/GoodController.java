@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * <p>
@@ -35,16 +36,20 @@ public class GoodController {
     private GoodService goodService;
 
     @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
     private RedisUtil redisUtil;
 
     @GetMapping("getAllList")
     @ApiOperation("物品列表")
-    public R getAllList(long cur, long size, String categoryId) {
+    public R getAllList(long cur, long size, String categoryId, String keyword) {
         Page<Good> page = new Page<>(cur,size);
         QueryWrapper<Good> wrapper = new QueryWrapper<>();
+        if (keyword != null && !keyword.isEmpty()) wrapper.like("title",keyword);
         if (categoryId != null && !categoryId.isEmpty()) wrapper.eq("category",categoryId);
-        wrapper.orderByDesc("createtime");
         wrapper.orderByAsc("tags");
+        wrapper.orderByDesc("createtime");
         wrapper.orderByDesc("look");
         goodService.page(page,wrapper);
         long total = page.getTotal();
@@ -55,7 +60,11 @@ public class GoodController {
     @ApiOperation("物品信息")
     public R getInfo(String goodId) {
         redisUtil.incr("goodId-" + goodId,1);
-        return R.ok().data("good",goodService.getById(goodId));
+        Good good = goodService.getById(goodId);
+        String categoryId = good.getCategory();
+        Category category = categoryService.getById(categoryId);
+        good.setCategory(category.getName());
+        return R.ok().data("good",good);
     }
 
     @PostMapping("add")

@@ -5,6 +5,6 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 175.27.243.243:8848
-        namespace: 93bb45fd-59ee-49b9-b82d-93b7631bebbc
+        server-addr: 159.75.213.84:8848
+        namespace: 3f12e402-4a80-4b98-84a3-94978fd69e33
 

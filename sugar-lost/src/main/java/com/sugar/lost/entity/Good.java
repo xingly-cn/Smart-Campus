@@ -66,5 +66,7 @@ public class Good implements Serializable {
     @TableLogic
     private Integer isDelete;
 
+    private String url;
+
 
 }

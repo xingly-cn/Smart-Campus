@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
  * </p>
  *
  * @author 方糖
- * @since 2022-02-10
+ * @since 2022-02-10 两个月了操
  */
 @RestController
 @RequestMapping("/lost/inform")
@@ -36,7 +36,7 @@ public class InformController {
         Page<Inform> page = new Page<Inform>(cur,size);
         informService.page(page,null);
         long total = page.getTotal();
-        return R.ok().data("informList",page.getRecords()).data("total",total);
+        return R.ok().data("list",page.getRecords()).data("total",total);
     }
 
     @GetMapping("getInfo")
@@ -44,7 +44,7 @@ public class InformController {
     public R getInfo(String categoryId) {
         QueryWrapper<Inform> wrapper = new QueryWrapper<>();
         wrapper.eq("categoryid",categoryId);
-        return R.ok().data("informList",informService.list(wrapper));
+        return R.ok().data("list",informService.list(wrapper));
     }
 
     @PostMapping("add")
