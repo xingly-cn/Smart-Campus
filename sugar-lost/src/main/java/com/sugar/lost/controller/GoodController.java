@@ -8,13 +8,20 @@ import com.sugar.base.utils.JwtUtils;
 import com.sugar.base.utils.RedisUtil;
 import com.sugar.lost.entity.Category;
 import com.sugar.lost.entity.Good;
+import com.sugar.lost.entity.School;
+import com.sugar.lost.entity.Stu;
+import com.sugar.lost.entity.vo.GoodVo;
 import com.sugar.lost.service.CategoryService;
 import com.sugar.lost.service.GoodService;
+import com.sugar.lost.service.SchoolService;
+import com.sugar.lost.service.StuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -32,20 +39,28 @@ import java.util.List;
 @Api(tags = "物品管理")
 public class GoodController {
 
-    @Autowired
+    @Resource
     private GoodService goodService;
 
-    @Autowired
+    @Resource
     private CategoryService categoryService;
 
-    @Autowired
+    @Resource
+    private StuService stuService;
+
+    @Resource
+    private SchoolService schoolService;
+
+    @Resource
     private RedisUtil redisUtil;
 
     @GetMapping("getAllList")
     @ApiOperation("物品列表")
-    public R getAllList(long cur, long size, String categoryId, String keyword) {
+    public R getAllList(long cur, long size, String categoryId, String keyword, HttpServletRequest request) {
+        String userId = request.getHeader("userId");
         Page<Good> page = new Page<>(cur,size);
         QueryWrapper<Good> wrapper = new QueryWrapper<>();
+        if (userId != null) wrapper.eq("user_id",userId);
         if (keyword != null && !keyword.isEmpty()) wrapper.like("title",keyword);
         if (categoryId != null && !categoryId.isEmpty()) wrapper.eq("category",categoryId);
         wrapper.orderByAsc("tags");
@@ -69,7 +84,19 @@ public class GoodController {
 
     @PostMapping("add")
     @ApiOperation("添加物品")
-    public R add(@RequestBody Good good) {
+    public R add(@RequestBody GoodVo goodVo,HttpServletRequest request) {
+        String userId = request.getHeader("userId");
+        Good good = new Good();
+        BeanUtils.copyProperties(goodVo,good);
+        good.setUserId(userId);
+        Stu stu = stuService.getById(userId);
+        good.setName(stu.getName());
+
+        String schoolname = stu.getSchoolname();
+        QueryWrapper<School> wrapper = new QueryWrapper<>();
+        wrapper.eq("name",schoolname);
+        School school = schoolService.getOne(wrapper);
+        good.setSchoolid(school.getId());
         return R.ok().data("success",goodService.saveGood(good));
     }
 

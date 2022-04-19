@@ -13,6 +13,8 @@ import io.swagger.annotations.Info;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+
 /**
  * <p>
  *  前端控制器
@@ -27,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "公告管理")
 public class InformController {
 
-    @Autowired
+    @Resource
     private InformService informService;
 
     @GetMapping("getList")

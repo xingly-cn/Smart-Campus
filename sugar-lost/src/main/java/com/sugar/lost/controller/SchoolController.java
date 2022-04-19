@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+
 /**
  * <p>
  *  前端控制器
@@ -26,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "学校管理")
 public class SchoolController {
 
-    @Autowired
+    @Resource
     private SchoolService schoolService;
 
     @GetMapping("getList")
@@ -51,11 +53,6 @@ public class SchoolController {
     public R add(@RequestBody School school) {
         return R.ok().data("success",schoolService.save(school));
     }
-
-
-
-
-
 
 
 }

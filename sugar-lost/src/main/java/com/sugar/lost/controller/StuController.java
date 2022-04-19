@@ -13,6 +13,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 /**
@@ -29,10 +31,10 @@ import java.util.UUID;
 @Api(tags = "学生管理")
 public class StuController {
 
-    @Autowired
+    @Resource
     private StuService stuService;
 
-    @Autowired
+    @Resource
     private RedisUtil redisUtil;
 
     @GetMapping("/getList")
@@ -49,7 +51,8 @@ public class StuController {
 
     @GetMapping("/getInfo")
     @ApiOperation("学生信息")
-    public R getInfo(String stuId) {
+    public R getInfo(HttpServletRequest request) {
+        String stuId = request.getHeader("stuId");
         return R.ok().data("stu",stuService.getById(stuId));
     }
 
@@ -77,24 +80,25 @@ public class StuController {
 
     @PostMapping("/sendCode")
     @ApiOperation("发送认证码")
-    public R sendCode(String stuId) {
+    public R sendCode(HttpServletRequest request) {
+        String stuId = request.getHeader("stuId");
         String code_Redis = (String) redisUtil.get(stuId);
-        if (code_Redis != null) return R.error().message("发送太快了,请于" + redisUtil.getExpire(stuId) + "s后再试.");
+        if (code_Redis != null) return R.ok().message("发送太快了,请于" + redisUtil.getExpire(stuId) + "s后再试.");
         String code = String.valueOf(UUID.randomUUID()).replaceAll("-","");
         redisUtil.set(stuId,code,300);
-        return R.ok().data(stuId,"验证码发送成功,请于5分钟内完成验证.");
+        return R.ok().message("验证码发送成功,请于5分钟内完成验证.");
     }
 
     @PostMapping("/verify")
     @ApiOperation("学生认证")
-    public R verify(String username, String code) {
-        if (code == null || !redisUtil.get(username).equals(code)) return R.error().message("认证失败.");
-        QueryWrapper<Stu> wrapper = new QueryWrapper<>();
-        wrapper.eq("username",username);
-        Stu stu = stuService.getOne(wrapper);
+    public R verify(String code,HttpServletRequest request) {
+        String stuId = request.getHeader("stuId");
+        if (code == null || !redisUtil.get(stuId).equals(code)) return R.error().message("认证失败.");
+        Stu stu = stuService.getById(stuId);
         stu.setVerify(1);
-        redisUtil.del(username);
-        return R.ok().data("success",stuService.updateById(stu));
+        redisUtil.del(stuId);
+        boolean b = stuService.updateById(stu);
+        return b ? R.ok().message("认证成功") : R.ok().message("认证失败");
     }
 
     @PostMapping("/login")

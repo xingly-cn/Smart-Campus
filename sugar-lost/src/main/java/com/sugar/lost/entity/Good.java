@@ -68,5 +68,7 @@ public class Good implements Serializable {
 
     private String url;
 
+    private String userId;
+
 
 }
