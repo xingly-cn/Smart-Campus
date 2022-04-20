@@ -7,14 +7,17 @@ import com.sugar.base.result.R;
 import com.sugar.base.utils.RedisUtil;
 import com.sugar.lost.entity.Category;
 import com.sugar.lost.entity.Stu;
+import com.sugar.lost.entity.vo.LoginVo;
 import com.sugar.lost.service.StuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 /**
@@ -68,15 +71,6 @@ public class StuController {
         return R.ok().data("success",stuService.updateById(stu));
     }
 
-    @PostMapping("/regist")
-    @ApiOperation("注册学生")
-    public R add(@RequestBody Stu stu) {
-        QueryWrapper<Stu> wrapper = new QueryWrapper<>();
-        wrapper.eq("id",stu.getId());
-        int count = stuService.count(wrapper);
-        if (count > 0) return R.error().message("账号已存在.");
-        return R.ok().data("success",stuService.save(stu));
-    }
 
     @PostMapping("/sendCode")
     @ApiOperation("发送认证码")
@@ -103,8 +97,26 @@ public class StuController {
 
     @PostMapping("/login")
     @ApiOperation("学生登陆")
-    public R login(String username,String password) {
-        return R.ok().data("token",stuService.login(username,password));
+    public R login(@RequestBody LoginVo loginVo) {
+        // 账号未注册 - 逻辑判断
+        String username = loginVo.getUsername();
+        QueryWrapper<Stu> wrapper = new QueryWrapper<>();
+        wrapper.eq("username",username);
+        int count = stuService.count(wrapper);
+        if (count == 0) {
+            Stu stu = new Stu();
+            stu.setUsername(username);
+            stu.setPassword(DigestUtils.md5DigestAsHex(loginVo.getPassword().getBytes(StandardCharsets.UTF_8)));
+            boolean save = stuService.save(stu);
+            if (!save) return R.ok().message("注册账号失败,请联系管理员");
+        }
+
+        // 正常登陆逻辑
+        String login = stuService.login(loginVo.getUsername(), loginVo.getPassword());
+        if (login.length() <= 10) {
+            return R.ok().message(login);
+        }
+        return R.ok().data("token",login);
     }
 
 

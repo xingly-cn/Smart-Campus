@@ -57,6 +57,7 @@ public class GoodServiceImpl extends ServiceImpl<GoodMapper, Good> implements Go
         }
         good.setTags(1L);
         baseMapper.updateById(good);
+        //
         String categoryId = good.getCategory();
         Category category = categoryService.getById(categoryId);
         category.setFind(category.getFind() + 1);

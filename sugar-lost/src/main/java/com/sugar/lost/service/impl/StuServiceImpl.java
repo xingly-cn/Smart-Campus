@@ -27,16 +27,13 @@ public class StuServiceImpl extends ServiceImpl<StuMapper, Stu> implements StuSe
     @Override
     public String login(String username, String password) {
         if (username == null || password == null) {
-            return "登陆失败.";
+            return "登陆失败";
         }
         QueryWrapper<Stu> wrapper = new QueryWrapper<>();
         wrapper.eq("username",username);
         Stu stu = baseMapper.selectOne(wrapper);
         if (!stu.getPassword().equals(DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8)))) {
-            return "密码错误.";
-        }
-        if (stu.getVerify() == 0) {
-            return "账号未认证.";
+            return "密码错误";
         }
         stu.setLastlogin(new Date());
         baseMapper.updateById(stu);

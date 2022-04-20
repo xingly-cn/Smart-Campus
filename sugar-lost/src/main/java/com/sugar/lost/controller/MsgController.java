@@ -49,14 +49,14 @@ public class MsgController {
     public R getList(HttpServletRequest request) {
         //TODO 后期的改成使用token 获取用户ID
         //String stuId = JwtUtils.getMemberIdByJwtToken(request);
-        String stuId = request.getHeader("userId");
+        String stuId = request.getHeader("stuId");
         QueryWrapper<Msg> wrapper = new QueryWrapper<>();
         wrapper.eq("stuid",stuId);
         wrapper.orderByDesc("createtime");
-        return R.ok().data("msgList",msgService.list(wrapper));
+        return R.ok().data("list",msgService.list(wrapper));
     }
 
-    @PostMapping("/read")
+    @GetMapping("/read")
     @ApiOperation("已读消息")
     public R read(String msgId, HttpServletRequest request) {
         return R.ok().data("success",msgService.readMsg(msgId, request));

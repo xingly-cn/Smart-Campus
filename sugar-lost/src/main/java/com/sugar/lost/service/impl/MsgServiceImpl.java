@@ -24,7 +24,7 @@ public class MsgServiceImpl extends ServiceImpl<MsgMapper, Msg> implements MsgSe
     public boolean readMsg(String msgId, HttpServletRequest request) {
         //todo 后期改成token获取stuid
         //String stuId = JwtUtils.getMemberIdByJwtToken(request);
-        String stuId = request.getHeader("userId");
+        String stuId = request.getHeader("stuId");
         Msg msg = baseMapper.selectById(msgId);
         if (msg == null || !msg.getStuid().equals(stuId)) {
             return false;

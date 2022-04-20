@@ -57,7 +57,7 @@ public class GoodController {
     @GetMapping("getAllList")
     @ApiOperation("物品列表")
     public R getAllList(long cur, long size, String categoryId, String keyword, HttpServletRequest request) {
-        String userId = request.getHeader("userId");
+        String userId = request.getHeader("stuId");
         Page<Good> page = new Page<>(cur,size);
         QueryWrapper<Good> wrapper = new QueryWrapper<>();
         if (userId != null) wrapper.eq("user_id",userId);
@@ -100,7 +100,7 @@ public class GoodController {
         return R.ok().data("success",goodService.saveGood(good));
     }
 
-    @PostMapping("del")
+    @GetMapping("del")
     @ApiOperation("删除物品")
     public R del(String goodId) {
         return R.ok().data("success",goodService.removeById(goodId));
@@ -113,7 +113,7 @@ public class GoodController {
     }
 
     //TODO 只有自己发布的物品,才可以标记为已找到. 使用 request 判断 header 的 token 与物品发布者姓名匹配即可
-    @PostMapping("find")
+    @GetMapping("find")
     @ApiOperation("物品找到")
     public R find(String goodId) {
         return R.ok().data("success",goodService.findGood(goodId));
