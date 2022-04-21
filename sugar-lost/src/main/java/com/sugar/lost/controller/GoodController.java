@@ -56,11 +56,12 @@ public class GoodController {
 
     @GetMapping("getAllList")
     @ApiOperation("物品列表")
-    public R getAllList(long cur, long size, String categoryId, String keyword, HttpServletRequest request) {
-        String userId = request.getHeader("stuId");
+    public R getAllList(long cur, long size, String categoryId, String keyword, HttpServletRequest request, @RequestParam(required = false)
+                        String f) {
+        String userId = JwtUtils.getMemberIdByJwtToken(request);
         Page<Good> page = new Page<>(cur,size);
         QueryWrapper<Good> wrapper = new QueryWrapper<>();
-        if (userId != null) wrapper.eq("user_id",userId);
+        if (userId != null && f == null) wrapper.eq("user_id",userId);
         if (keyword != null && !keyword.isEmpty()) wrapper.like("title",keyword);
         if (categoryId != null && !categoryId.isEmpty()) wrapper.eq("category",categoryId);
         wrapper.orderByAsc("tags");
@@ -85,7 +86,8 @@ public class GoodController {
     @PostMapping("add")
     @ApiOperation("添加物品")
     public R add(@RequestBody GoodVo goodVo,HttpServletRequest request) {
-        String userId = request.getHeader("userId");
+        //String userId = JwtUtils.getMemberIdByJwtToken(request);
+        String userId = "4";
         Good good = new Good();
         BeanUtils.copyProperties(goodVo,good);
         good.setUserId(userId);
@@ -97,6 +99,7 @@ public class GoodController {
         wrapper.eq("name",schoolname);
         School school = schoolService.getOne(wrapper);
         good.setSchoolid(school.getId());
+        good.setIsDelete(0);
         return R.ok().data("success",goodService.saveGood(good));
     }
 
@@ -112,7 +115,6 @@ public class GoodController {
         return R.ok().data("success",goodService.editGood(good));
     }
 
-    //TODO 只有自己发布的物品,才可以标记为已找到. 使用 request 判断 header 的 token 与物品发布者姓名匹配即可
     @GetMapping("find")
     @ApiOperation("物品找到")
     public R find(String goodId) {

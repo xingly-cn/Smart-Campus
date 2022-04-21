@@ -37,7 +37,7 @@ public class MsgController {
     @PostMapping("/send")
     @ApiOperation("发送消息")
     public R sendMsg(@RequestBody MsgVo msgVo,HttpServletRequest request) {
-        String fromer = request.getHeader("userId");
+        String fromer = JwtUtils.getMemberIdByJwtToken(request);
         Msg msg = new Msg();
         BeanUtils.copyProperties(msgVo, msg);
         msg.setFromer(fromer);
@@ -47,9 +47,7 @@ public class MsgController {
     @GetMapping("/getList")
     @ApiOperation("接受消息")
     public R getList(HttpServletRequest request) {
-        //TODO 后期的改成使用token 获取用户ID
-        //String stuId = JwtUtils.getMemberIdByJwtToken(request);
-        String stuId = request.getHeader("stuId");
+        String stuId = JwtUtils.getMemberIdByJwtToken(request);
         QueryWrapper<Msg> wrapper = new QueryWrapper<>();
         wrapper.eq("stuid",stuId);
         wrapper.orderByDesc("createtime");

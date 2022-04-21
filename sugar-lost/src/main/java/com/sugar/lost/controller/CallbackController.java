@@ -11,6 +11,7 @@ import com.sugar.lost.service.CallbackService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -36,7 +37,7 @@ public class CallbackController {
     @GetMapping("/getList")
     @ApiOperation("反馈列表")
     public R getList(long cur, long size, HttpServletRequest request) {
-        String stuId = request.getHeader("stuId");
+        String stuId = JwtUtils.getMemberIdByJwtToken(request);
         Page<Callback> page = new Page<>(cur,size);
         QueryWrapper<Callback> wrapper = new QueryWrapper<>();
         if (stuId != null) {

@@ -36,7 +36,9 @@ public class InformController {
     @ApiOperation("公告列表")
     public R getList(long cur, long size) {
         Page<Inform> page = new Page<Inform>(cur,size);
-        informService.page(page,null);
+        QueryWrapper<Inform> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("createtime");
+        informService.page(page,wrapper);
         long total = page.getTotal();
         return R.ok().data("list",page.getRecords()).data("total",total);
     }

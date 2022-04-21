@@ -4,6 +4,7 @@ package com.sugar.lost.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sugar.base.result.R;
+import com.sugar.base.utils.JwtUtils;
 import com.sugar.base.utils.RedisUtil;
 import com.sugar.lost.entity.Category;
 import com.sugar.lost.entity.Stu;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
+import java.time.chrono.JapaneseChronology;
 import java.util.UUID;
 
 /**
@@ -55,8 +57,16 @@ public class StuController {
     @GetMapping("/getInfo")
     @ApiOperation("学生信息")
     public R getInfo(HttpServletRequest request) {
-        String stuId = request.getHeader("stuId");
-        return R.ok().data("stu",stuService.getById(stuId));
+        String stuId = JwtUtils.getMemberIdByJwtToken(request);
+        Stu stu = stuService.getById(stuId);
+        return R.ok().data("stu",stu);
+    }
+
+    @GetMapping("/getInfo2")
+    @ApiOperation("学生信息")
+    public R getInfo2(String stuId) {
+        Stu stu = stuService.getById(stuId);
+        return R.ok().data("stu",stu);
     }
 
     @PostMapping("/del")
@@ -75,7 +85,7 @@ public class StuController {
     @PostMapping("/sendCode")
     @ApiOperation("发送认证码")
     public R sendCode(HttpServletRequest request) {
-        String stuId = request.getHeader("stuId");
+        String stuId = JwtUtils.getMemberIdByJwtToken(request);
         String code_Redis = (String) redisUtil.get(stuId);
         if (code_Redis != null) return R.ok().message("发送太快了,请于" + redisUtil.getExpire(stuId) + "s后再试.");
         String code = String.valueOf(UUID.randomUUID()).replaceAll("-","");
@@ -86,7 +96,7 @@ public class StuController {
     @PostMapping("/verify")
     @ApiOperation("学生认证")
     public R verify(String code,HttpServletRequest request) {
-        String stuId = request.getHeader("stuId");
+        String stuId = JwtUtils.getMemberIdByJwtToken(request);
         if (code == null || !redisUtil.get(stuId).equals(code)) return R.error().message("认证失败.");
         Stu stu = stuService.getById(stuId);
         stu.setVerify(1);
